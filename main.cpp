@@ -10,8 +10,7 @@ using namespace std;
 void addVillager(map<string, tuple<int, string, string>> &);
 int printMenu();
 void printVillagers(map<string, tuple<int, string, string>>);
-void modifyVillager(map<string, tuple<int, string, string>> &, string); //multipurpose function
-
+void modifyVillager(map<string, tuple<int, string, string>> &, string); // multipurpose function
 
 int main()
 {
@@ -24,34 +23,31 @@ int main()
     {
         switch (printMenu())
         {
-        case(1):
-            addVillager(vInfo); 
+        case (1):
+            addVillager(vInfo);
             printVillagers(vInfo);
             break;
 
-        case(2):
+        case (2):
             modifyVillager(vInfo, "remove");
             printVillagers(vInfo);
             break;
 
-        case(3):
+        case (3):
             modifyVillager(vInfo, "increase");
             printVillagers(vInfo);
             break;
 
-        case(4):
+        case (4):
             modifyVillager(vInfo, "increase");
             break;
 
-        case(5):
+        case (5):
             modifyVillager(vInfo, "search");
             break;
-        
-        default:
-            break;
         }
-    }
-    while(printMenu() != 6);
+
+    } while (printMenu() != 6);
 
     return 0;
 }
@@ -62,24 +58,25 @@ void addVillager(map<string, tuple<int, string, string>> &villagers)
     int f;
 
     cout << "Villager Name: ";
-    getline(cin, n); 
+    getline(cin, n);
 
     cout << "Friendship Level: ";
     cin >> f;
-    while (f < 1 || f > 10) //simple validation loop
+    while (f < 1 || f > 10) // simple validation loop
     {
         cout << "ERROR: Friendship must be a number 1-10, try again: ";
         cin >> f;
     }
+    cin.ignore();
 
     cout << "Species: ";
     cin >> s;
+    cin.ignore(); // clear for next getline
 
-    cin.ignore(); //clear for next getline
     cout << "Catchphrase: ";
-    getline(cin,c);
+    getline(cin, c);
 
-    villagers[n] = {f,s,c}; //assign to tuple 
+    villagers[n] = {f, s, c}; // assign to tuple
 }
 
 int printMenu()
@@ -93,7 +90,7 @@ int printMenu()
         cout << "ERROR: Choice must be a number 1-6, try again: ";
         cin >> c;
     }
-    cout << '\n'; //formatting
+    cout << '\n'; // formatting
     return (c);
 }
 
@@ -102,36 +99,48 @@ void printVillagers(map<string, tuple<int, string, string>> villagers)
     if (villagers.size() > 0)
     {
         cout << "Villager Details: \n";
-        for (const auto &a : villagers) // for each villager
-            cout << a.first << " [" << "Friendship Level: " << get<0>(a.second) << ", Species: " << get<1>(a.second) << ", Catchphrase: " << get<2>(a.second) << "]\n"; //access specific tuple elements
+        for (const auto &a : villagers)                                                                                                                                 // for each villager
+            cout << a.first << " [" << "Friendship Level: " << get<0>(a.second) << ", Species: " << get<1>(a.second) << ", Catchphrase: " << get<2>(a.second) << "]\n"; // access specific tuple elements
     }
     else
     {
-        cout << "No Villagers yet, try adding some first!\n"; 
+        cout << "No Villagers yet, try adding some first!\n";
     }
-    cout << '\n'; //formatting
+    cout << '\n'; // formatting
 }
 
 void modifyVillager(map<string, tuple<int, string, string>> &villagers, string mode)
 {
     string buf;
 
-    cin.ignore(); //clear for getline
-    cout << "Enter name of villager to modify: ";   
-    getline(cin,buf);
+    cout << "Enter name of villager to modify: ";
+    getline(cin, buf);
 
-    auto search = villagers.find(buf); 
-    if(search != villagers.end()) //if villager found in map
+    auto search = villagers.find(buf);
+    if (search != villagers.end()) // if villager found in map
     {
-        if(mode == "increase")
-            get<0>(search->second)++; //increase friendship
-        else if(mode == "decrease")
-            get<0>(search->second)--; //decrease
-        else if(mode == "remove")
-            villagers.erase(buf); //remove
-        else if(mode == "search")
-            cout << "Found the villager in the list! "
+        if (mode == "increase") // increase friendship
+        {
+            if (get<0>(search->second) != 10) // if not about to make invalid
+                get<0>(search->second)++;
+            else
+                cout << "Maximum friendship is level 10.\n";
+        }
+
+        else if (mode == "decrease") // decrease
+        {
+            if (get<0>(search->second) != 0) // if not about to make invalid
+                get<0>(search->second)--;
+            else
+                cout << "Minimum friendship is level 0.\n";
+        }
+
+        else if (mode == "remove") // remove
+            villagers.erase(buf);
+
+        else if (mode == "search") // search
+            cout << "Found " << buf << "'s attributes: [" << "Friendship Level: " << get<0>(search->second) << ", Species: " << get<1>(search->second) << ", Catchphrase: " << get<2>(search->second) << "]\n";
     }
     else
-        cout << "ERROR, villager with name: " << buf << " not found.";
+        cout << "ERROR, villager with name " << buf << " not found.\n";
 }
