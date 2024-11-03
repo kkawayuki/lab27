@@ -10,8 +10,8 @@ using namespace std;
 void addVillager(map<string, tuple<int, string, string>> &);
 int printMenu();
 void printVillagers(map<string, tuple<int, string, string>>);
-void increaseFriendship(map<string, tuple<int, string, string>> &);
-void decreaseFriendship(map<string, tuple<int, string, string>> &);
+void modifyVillager(map<string, tuple<int, string, string>> &, string); //multipurpose function
+
 
 int main()
 {
@@ -25,20 +25,26 @@ int main()
         switch (printMenu())
         {
         case(1):
+            addVillager(vInfo); 
             printVillagers(vInfo);
             break;
 
         case(2):
+            modifyVillager(vInfo, "remove");
             printVillagers(vInfo);
             break;
 
         case(3):
+            modifyVillager(vInfo, "increase");
+            printVillagers(vInfo);
             break;
 
         case(4):
+            modifyVillager(vInfo, "increase");
             break;
 
         case(5):
+            modifyVillager(vInfo, "search");
             break;
         
         default:
@@ -106,17 +112,26 @@ void printVillagers(map<string, tuple<int, string, string>> villagers)
     cout << '\n'; //formatting
 }
 
-void increaseFriendship(map<string, tuple<int, string, string>> &villagers)
+void modifyVillager(map<string, tuple<int, string, string>> &villagers, string mode)
 {
     string buf;
 
     cin.ignore(); //clear for getline
-    cout << "Enter name of villager to incrase friendship: ";   
+    cout << "Enter name of villager to modify: ";   
     getline(cin,buf);
 
     auto search = villagers.find(buf); 
     if(search != villagers.end()) //if villager found in map
     {
-        search->second
+        if(mode == "increase")
+            get<0>(search->second)++; //increase friendship
+        else if(mode == "decrease")
+            get<0>(search->second)--; //decrease
+        else if(mode == "remove")
+            villagers.erase(buf); //remove
+        else if(mode == "search")
+            cout << "Found the villager in the list! "
     }
+    else
+        cout << "ERROR, villager with name: " << buf << " not found.";
 }
