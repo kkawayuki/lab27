@@ -6,7 +6,7 @@
 #include <tuple> //for std::tuple
 using namespace std;
 
-// prototypes
+// function prototypes
 void addVillager(map<string, tuple<int, string, string>> &);
 int printMenu();
 void printVillagers(const map<string, tuple<int, string, string>>);
@@ -90,6 +90,8 @@ void addVillager(map<string, tuple<int, string, string>> &villagers)
     cout << "Catchphrase: ";
     getline(cin, c);
 
+    cout << '\n'; //formatting
+
     villagers[n] = {f, s, c}; // assign to tuple
 }
 
@@ -119,13 +121,13 @@ int printMenu()
 }
 
 /************************************************
- * Function: Prompt user for specific attributes
- * and later add a villager with these attributes
- * to the map
+ * Function: Print all Villagers in the map
+ * formatted in a readable manner.
  *
  * Parameters: villagers, the map that contains
- * all villagers, passed by reference as assignment
- * to the original map is occurring.
+ * all villagers, passed by constant value to ensure
+ * no changes are made to the original. Only needs
+ * to reference values to print. 
  ************************************************/
 void printVillagers(const map<string, tuple<int, string, string>> villagers)
 {
@@ -142,6 +144,19 @@ void printVillagers(const map<string, tuple<int, string, string>> villagers)
     cout << '\n'; // formatting
 }
 
+/************************************************
+ * Function: Apply various changes to the villager
+ * depending on the specified mode invoked by the
+ * programmer (not user), user specifies based
+ * on choice number in menu. 
+ *
+ * Parameters: 
+ * &villagers, the map that contains
+ * all villagers, passed by reference as assignment
+ * to the original map is occurring.
+ * mode, the string that determines what operation
+ * is done on the villager (add/subtract/remove/find)
+ ************************************************/
 void modifyVillager(map<string, tuple<int, string, string>> &villagers, string mode)
 {
     string buf;
