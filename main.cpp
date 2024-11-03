@@ -9,15 +9,16 @@ using namespace std;
 // prototypes
 void addVillager(map<string, tuple<int, string, string>> &);
 int printMenu();
-void printVillagers(map<string, tuple<int, string, string>>);
+void printVillagers(const map<string, tuple<int, string, string>>);
 void modifyVillager(map<string, tuple<int, string, string>> &, string); // multipurpose function
 
+/************************************************
+ * Function: Main
+ ************************************************/
 int main()
 {
-    // map declaration
+    bool again = true;
     map<string, tuple<int, string, string>> vInfo; // each pair is comprised of a string name(key), struct containing tuple of int/string/string
-
-    vInfo["Test"] = make_tuple(1, "a", "a"); // test
 
     do
     {
@@ -39,19 +40,32 @@ int main()
             break;
 
         case (4):
-            modifyVillager(vInfo, "increase");
+            modifyVillager(vInfo, "decrease");
+            printVillagers(vInfo);
             break;
 
         case (5):
             modifyVillager(vInfo, "search");
             break;
-        }
 
-    } while (printMenu() != 6);
+        case (6):
+            again = false;
+            break;
+        }
+    } while (again);
 
     return 0;
 }
 
+/************************************************
+ * Function: Prompt user for specific attributes
+ * and later add a villager with these attributes
+ * to the map
+ *
+ * Parameters: &villagers, the map that contains
+ * all villagers, passed by reference as assignment
+ * to the original map is occurring.
+ ************************************************/
 void addVillager(map<string, tuple<int, string, string>> &villagers)
 {
     string n, s, c;
@@ -79,9 +93,18 @@ void addVillager(map<string, tuple<int, string, string>> &villagers)
     villagers[n] = {f, s, c}; // assign to tuple
 }
 
+/************************************************
+ * Function: Print the menu for the menu-driven
+ * program, allowing users to choose functions
+ * to invoke on a map
+ *
+ * Return: c, (choice), integer corresponding to
+ * user desires
+ ************************************************/
 int printMenu()
 {
     int c;
+
     cout << "1. Add Villager\n2. Delete Villager\n3. Increase Friendship\n4. Decrease Friendship\n5. Search for Villager\n6. Exit\n\n";
     cout << "Choice: ";
     cin >> c;
@@ -90,11 +113,21 @@ int printMenu()
         cout << "ERROR: Choice must be a number 1-6, try again: ";
         cin >> c;
     }
-    cout << '\n'; // formatting
+    cin.ignore(100, '\n'); // clear buffer of characters
+    cout << '\n';          // formatting
     return (c);
 }
 
-void printVillagers(map<string, tuple<int, string, string>> villagers)
+/************************************************
+ * Function: Prompt user for specific attributes
+ * and later add a villager with these attributes
+ * to the map
+ *
+ * Parameters: villagers, the map that contains
+ * all villagers, passed by reference as assignment
+ * to the original map is occurring.
+ ************************************************/
+void printVillagers(const map<string, tuple<int, string, string>> villagers)
 {
     if (villagers.size() > 0)
     {
@@ -112,8 +145,7 @@ void printVillagers(map<string, tuple<int, string, string>> villagers)
 void modifyVillager(map<string, tuple<int, string, string>> &villagers, string mode)
 {
     string buf;
-
-    cout << "Enter name of villager to modify: ";
+    cout << "Enter name of villager: ";
     getline(cin, buf);
 
     auto search = villagers.find(buf);
