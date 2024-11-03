@@ -3,11 +3,15 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <tuple> //for tuple
 using namespace std;
 
-int main() {
-    // declarations
-    map<string, vector<string>> villagerColors;
+int main() 
+{
+    
+    //map declaration
+    auto myTuple = tuple<int, string, string>; //name(key), fLevel, species, catchphrase
+    map<string, tuple> villagerColors; 
 
     // insert elements into the map
     // note how the right-hand side of the assignment are the vector elements
