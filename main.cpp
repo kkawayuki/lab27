@@ -7,9 +7,11 @@
 using namespace std;
 
 // prototypes
-void addVillager();
+void addVillager(map<string, tuple<int, string, string>> &);
 int printMenu();
 void printVillagers(map<string, tuple<int, string, string>>);
+void increaseFriendship(map<string, tuple<int, string, string>> &);
+void decreaseFriendship(map<string, tuple<int, string, string>> &);
 
 int main()
 {
@@ -48,8 +50,30 @@ int main()
     return 0;
 }
 
-void addVillager()
+void addVillager(map<string, tuple<int, string, string>> &villagers)
 {
+    string n, s, c;
+    int f;
+
+    cout << "Villager Name: ";
+    getline(cin, n); 
+
+    cout << "Friendship Level: ";
+    cin >> f;
+    while (f < 1 || f > 10) //simple validation loop
+    {
+        cout << "ERROR: Friendship must be a number 1-10, try again: ";
+        cin >> f;
+    }
+
+    cout << "Species: ";
+    cin >> s;
+
+    cin.ignore(); //clear for next getline
+    cout << "Catchphrase: ";
+    getline(cin,c);
+
+    villagers[n] = {f,s,c}; //assign to tuple 
 }
 
 int printMenu()
@@ -63,6 +87,7 @@ int printMenu()
         cout << "ERROR: Choice must be a number 1-6, try again: ";
         cin >> c;
     }
+    cout << '\n'; //formatting
     return (c);
 }
 
@@ -77,5 +102,21 @@ void printVillagers(map<string, tuple<int, string, string>> villagers)
     else
     {
         cout << "No Villagers yet, try adding some first!\n"; 
+    }
+    cout << '\n'; //formatting
+}
+
+void increaseFriendship(map<string, tuple<int, string, string>> &villagers)
+{
+    string buf;
+
+    cin.ignore(); //clear for getline
+    cout << "Enter name of villager to incrase friendship: ";   
+    getline(cin,buf);
+
+    auto search = villagers.find(buf); 
+    if(search != villagers.end()) //if villager found in map
+    {
+        search->second
     }
 }
