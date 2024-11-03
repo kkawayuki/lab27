@@ -90,7 +90,7 @@ void addVillager(map<string, tuple<int, string, string>> &villagers)
     cout << "Catchphrase: ";
     getline(cin, c);
 
-    cout << '\n'; //formatting
+    cout << n << " has been added.\n"; //formatting
 
     villagers[n] = {f, s, c}; // assign to tuple
 }
@@ -133,7 +133,7 @@ void printVillagers(const map<string, tuple<int, string, string>> villagers)
 {
     if (villagers.size() > 0)
     {
-        cout << "Villager Details: \n";
+        cout << "\nVillager Details: \n";
         for (const auto &a : villagers)                                                                                                                                 // for each villager
             cout << a.first << " [" << "Friendship Level: " << get<0>(a.second) << ", Species: " << get<1>(a.second) << ", Catchphrase: " << get<2>(a.second) << "]\n"; // access specific tuple elements
     }
@@ -183,7 +183,10 @@ void modifyVillager(map<string, tuple<int, string, string>> &villagers, string m
         }
 
         else if (mode == "remove") // remove
+        {   
             villagers.erase(buf);
+            cout << buf << " has been removed.\n"; 
+        }
 
         else if (mode == "search") // search
             cout << "Found " << buf << "'s attributes: [" << "Friendship Level: " << get<0>(search->second) << ", Species: " << get<1>(search->second) << ", Catchphrase: " << get<2>(search->second) << "]\n";
